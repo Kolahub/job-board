@@ -32,15 +32,16 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-40 bg-[url('/desktop/bg-pattern-header.svg')] bg-no-repeat bg-cover">
-      <div className="container mx-auto px-4 h-full flex justify-between items-center">
-        <div>
+    <header className="fixed top-0 left-0 right-0 h-32 md:h-40 bg-[url('/mobile/bg-pattern-header.svg')] md:bg-[url('/desktop/bg-pattern-header.svg')] bg-no-repeat bg-cover">
+      <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
+        <div className="pt-1">
           <Image 
-            src="/desktop/logo.svg" 
+            src='/desktop/logo.svg'
             alt="devjobs logo" 
             width={115} 
             height={32} 
-            className="w-auto h-8"
+            className="w-auto h-7 md:h-8"
+            priority
           />
         </div>
         <div className="flex items-center gap-4">

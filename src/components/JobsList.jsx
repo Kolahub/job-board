@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const JobsList = ({jobs}) => {
   const [visibleJobs, setVisibleJobs] = useState(12);
@@ -30,24 +31,22 @@ const JobsList = ({jobs}) => {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12 sm:gap-x-4 sm:gap-y-16 lg:gap-x-8 lg:gap-y-12">
         {displayedJobs.map((job) => (
-          <div 
+          <Link href={`/jobs/${job.id}`} 
             key={job.id}
-            className="bg-white dark:bg-very-dark-blue rounded-md px-8 py-12 relative shadow-md hover:shadow-lg transition-shadow duration-200 h-auto flex flex-col justify-between"
+            className="bg-white dark:bg-very-dark-blue rounded-md px-6 py-8 sm:px-8 sm:py-10 relative shadow-md hover:shadow-lg transition-shadow duration-200 h-auto flex flex-col justify-between"
           >
             <div 
-              className="w-14 h-14 rounded-2xl flex items-center justify-center absolute -top-7 left-8"
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center absolute -top-6 left-6 sm:-top-7 sm:left-8"
               style={{ backgroundColor: job.logoBackground }}
             >
               <Image 
                 src={job.logo} 
                 alt={`${job.company} logo`} 
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: 'auto', height: 'auto' }}
-                className="object-contain"
+                width={40}
+                height={40}
+                className="w-2/3 h-auto object-contain"
               />
             </div>
             
@@ -63,7 +62,7 @@ const JobsList = ({jobs}) => {
               <p className="text-gray-400 text-base mb-4 line-clamp-1">{job.company}</p>
             </div>
             <p className="text-violet font-bold text-sm">{job.location}</p>
-          </div>
+          </Link>
         ))}
       </div>
       
