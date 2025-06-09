@@ -51,9 +51,7 @@ export default function Home() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-dark-grey">Loading jobs...</p>
-        </div>
+        <div className="animate-spin rounded-full border-t-2 border-b-2 border-violet h-5 w-5" />
       </div>
     );
   }

@@ -8,7 +8,7 @@ import Footer from '@/components/job-details/Footer';
 
 async function getJobDetails(id) {
   try {
-    const res = await fetch('http://localhost:3000/data.json');
+    const res = await fetch('/data.json');
     const jobs = await res.json();
     const job = jobs.find(job => job.id === parseInt(id));
     
@@ -58,9 +58,7 @@ function JobDetailsContent({ jobSlug }) {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-dark-grey">Loading job details...</p>
-        </div>
+        <div className="animate-spin rounded-full border-t-2 border-b-2 border-violet h-5 w-5" />
       </div>
     );
   }
