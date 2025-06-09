@@ -20,6 +20,13 @@ function SearchBar() {
     setFullTimeOnly(filters.fullTimeOnly || false);
   }, [filters]);
 
+  // Scroll to top when mobile filters close
+  useEffect(() => {
+    if (!isMobileFiltersOpen && typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [isMobileFiltersOpen]);
+
   // Update filters on change instead of on form submit
   useEffect(() => {
     const timer = setTimeout(() => {
