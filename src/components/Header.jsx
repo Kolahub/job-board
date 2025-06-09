@@ -4,35 +4,32 @@ import { useState, useEffect } from 'react';
 
 export default function Header() {
   const [isDark, setIsDark] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
+  // After mounting, we have access to the theme
   useEffect(() => {
-    // Check for saved theme preference or use system preference
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      document.documentElement.classList.add('dark');
-      setIsDark(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      setIsDark(false);
-    }
+    setMounted(true);
+    const root = document.documentElement;
+    const isDarkMode = root.classList.contains('dark');
+    setIsDark(isDarkMode);
   }, []);
 
   const toggleTheme = () => {
+    const root = document.documentElement;
     const newIsDark = !isDark;
-    setIsDark(newIsDark);
+    
     if (newIsDark) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
       localStorage.setItem('theme', 'dark');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
       localStorage.setItem('theme', 'light');
     }
+    setIsDark(newIsDark);
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-32 md:h-40 bg-[url('/mobile/bg-pattern-header.svg')] md:bg-[url('/desktop/bg-pattern-header.svg')] bg-no-repeat bg-cover">
+    <header className="fixed top-0 left-0 right-0 h-32 md:h-40 bg-[url('/mobile/bg-pattern-header.svg')] md:bg-[url('/desktop/bg-pattern-header.svg')] bg-no-repeat bg-cover z-10">
       <div className="container mx-auto px-4 md:px-6 h-full flex justify-between items-center">
         <div className="pt-1">
           <Image 

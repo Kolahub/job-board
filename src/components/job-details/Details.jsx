@@ -10,7 +10,7 @@ export default function Details({ job }) {
   } = job;
 
   return (
-    <div className="bg-white dark:bg-very-dark-blue rounded-md p-6 md:p-12 shadow-md">
+    <div className="bg-white dark:bg-very-dark-blue rounded-md -mt-6 sm:-mt-0 p-6 md:p-12 shadow-md">
       <div className="md:flex md:items-start md:justify-between">
         <div className="mb-6 md:mb-0">
           <div className="flex items-center text-dark-grey mb-2">

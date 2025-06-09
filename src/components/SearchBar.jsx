@@ -133,7 +133,7 @@ function SearchBar() {
                 id="full-time"
                 checked={fullTimeOnly}
                 onChange={(e) => setFullTimeOnly(e.target.checked)}
-                className="appearance-none w-6 h-6 rounded bg-gray-200 dark:bg-gray-400 hover:bg-light-violet checked:hover:bg-violet checked:bg-violet checked:bg-[url('/desktop/icon-check.svg')] bg-no-repeat bg-center cursor-pointer focus:outline-none"
+                className="appearance-none w-6 h-6 rounded bg-[#979797]/30 hover:bg-light-violet checked:hover:bg-violet checked:bg-violet checked:bg-[url('/desktop/icon-check.svg')] bg-no-repeat bg-center cursor-pointer focus:outline-none"
                 suppressHydrationWarning={true}
               />
             </div>
@@ -203,7 +203,7 @@ function SearchBar() {
                       // Close modal after a small delay to allow state to update
                       setTimeout(() => setIsMobileFiltersOpen(false), 100);
                     }}
-                    className="appearance-none w-6 h-6 rounded bg-gray-200 dark:bg-gray-400 hover:bg-light-violet checked:hover:bg-violet checked:bg-violet checked:bg-[url('/desktop/icon-check.svg')] bg-no-repeat bg-center cursor-pointer focus:outline-none"
+                    className="appearance-none w-6 h-6 rounded bg-[#979797]/30 hover:bg-light-violet checked:hover:bg-violet checked:bg-violet checked:bg-[url('/desktop/icon-check.svg')] bg-no-repeat bg-center cursor-pointer focus:outline-none"
                     suppressHydrationWarning={true}
                   />
                 </div>

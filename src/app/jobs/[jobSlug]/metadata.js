@@ -1,13 +1,4 @@
-async function getJobDetails(id) {
-  try {
-    const res = await fetch('http://localhost:3000/data.json');
-    const jobs = await res.json();
-    return jobs.find(job => job.id === parseInt(id));
-  } catch (error) {
-    console.error('Error fetching job details:', error);
-    return null;
-  }
-}
+import { getJobDetails } from "@/lib/data";
 
 export async function generateMetadata({ params }) {
   const job = await getJobDetails(params.jobSlug);

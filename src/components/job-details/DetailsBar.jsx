@@ -21,7 +21,7 @@ export default function DetailsBar({ company, logo, logoBackground, website }) {
       <div className="md:flex md:items-center md:justify-between md:w-full md:px-10 md:py-8">
         <div className="mb-6 md:mb-0 md:text-left">
           <h2 className="text-xl font-bold text-very-dark-blue dark:text-white mb-2">{company}</h2>
-          <p className="text-dark-grey">{website?.replace(/^https?:\/\//, '')}</p>
+          <p className="text-dark-grey">{company.toLowerCase().replace(/\s+/g, '')}.com</p>
           </div>
           
           <div className="md:ml-4">

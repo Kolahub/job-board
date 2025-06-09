@@ -13,3 +13,11 @@
   --color-gray: #9DAEC2;
   --color-dark-grey: #6E8098;
 }
+
+/* Dark theme variant */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Smooth transitions for theme changes */
+html {
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
