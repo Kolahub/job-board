@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import SubHeader from "./subheader";
 import { ReduxProvider } from "@/providers/ReduxProvider";
 import ScrollToTop from "@/components/ScrollToTop";
-
 import ThemeInitializer from '@/components/ThemeInitializer';
 
 export default function RootLayout({ children }) {

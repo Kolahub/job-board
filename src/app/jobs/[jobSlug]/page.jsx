@@ -1,14 +1,47 @@
-'use client';
+import JobDetailsContent from '@/components/job-details/JobDetailsContent';
 
-import { useEffect, useState, use } from 'react';
-import { useDispatch } from 'react-redux';
-import { setJobDetails } from '@/lib/jobSlice';
-import Details from '@/components/job-details/Details';
-import Footer from '@/components/job-details/Footer';
+export async function generateMetadata({ params }) {
+  try {
+    const job = await getJobDetails(params.jobSlug);
+    if (!job) {
+      return {
+        title: 'Job Not Found',
+        description: 'The requested job could not be found.'
+      };
+    }
+
+    return {
+      title: `${job.position} at ${job.company} | DevJobs`,
+      description: `Apply for the ${job.position} position at ${job.company} in ${job.location}. ${job.requirements?.content?.substring(0, 150) || ''}...`,
+      openGraph: {
+        title: `${job.position} at ${job.company}`,
+        description: `Apply for the ${job.position} position at ${job.company} in ${job.location}.`,
+        type: 'article',
+        publishedTime: new Date().toISOString(),
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${job.position} at ${job.company}`,
+        description: `Apply for the ${job.position} position at ${job.company} in ${job.location}.`,
+      },
+    };
+  } catch (error) {
+    return {
+      title: 'Job Details',
+      description: 'View job details',
+    };
+  }
+}
 
 async function getJobDetails(id) {
   try {
-    const res = await fetch('/data.json');
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const res = await fetch(`${baseUrl}/data.json`, { next: { revalidate: 3600 } });
+    
+    if (!res.ok) {
+      throw new Error('Failed to fetch jobs');
+    }
+    
     const jobs = await res.json();
     const job = jobs.find(job => job.id === parseInt(id));
     
@@ -23,44 +56,19 @@ async function getJobDetails(id) {
   }
 }
 
-function JobDetailsContent({ jobSlug }) {
-  const dispatch = useDispatch();
-  const [job, setJob] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default async function JobDetailsPage({ params }) {
+  const { jobSlug } = params;
+  let job = null;
+  let error = null;
 
-  useEffect(() => {
-    const fetchJob = async () => {
-      try {
-        const jobData = await getJobDetails(jobSlug);
-        if (jobData) {
-          setJob(jobData);
-          dispatch(setJobDetails(jobData));
-        } else {
-          setError('Job not found');
-        }
-      } catch (err) {
-        console.error('Error fetching job:', err);
-        setError('Failed to load job details');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchJob();
-
-    // Cleanup function to clear job details when component unmounts
-    return () => {
-      dispatch(setJobDetails(null));
-    };
-  }, [jobSlug, dispatch]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full border-t-2 border-b-2 border-violet h-5 w-5" />
-      </div>
-    );
+  try {
+    job = await getJobDetails(jobSlug);
+    if (!job) {
+      error = 'Job not found';
+    }
+  } catch (err) {
+    console.error('Error in JobDetailsPage:', err);
+    error = 'Failed to load job details';
   }
 
   if (error || !job) {
@@ -78,19 +86,5 @@ function JobDetailsContent({ jobSlug }) {
     );
   }
 
-  return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-20 md:pb-24 pt-6 md:pt-8">
-      <div className="pt-[142px] sm:pt-0 mb-12">
-        <Details job={job} />
-      </div>
-      <Footer position={job.position} company={job.company} />
-    </div>
-  );
-}
-
-export default function JobDetails({ params }) {
-  // Use React.use() to unwrap the params promise
-  const { jobSlug } = use(params);
-  
-  return <JobDetailsContent jobSlug={jobSlug} />;
+  return <JobDetailsContent job={job} />;
 }
