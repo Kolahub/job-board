@@ -11,9 +11,15 @@ export const metadata = {
 
 async function getJobs() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/data.json`);
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+    const url = `${baseUrl}/data.json`;
+    console.log('Fetching from URL:', url);
+    
+    const res = await fetch(url);
+    
     if (!res.ok) {
-      throw new Error('Failed to fetch jobs');
+      console.error('Response status:', res.status, 'URL:', url);
+      throw new Error(`Failed to fetch jobs: ${res.status}`);
     }
     return await res.json();
   } catch (error) {

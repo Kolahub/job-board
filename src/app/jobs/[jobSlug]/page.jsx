@@ -32,27 +32,32 @@ export async function generateMetadata({ params }) {
     };
   }
 }
-
 async function getJobDetails(id) {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/data.json`, { next: { revalidate: 3600 } });
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+    const url = `${baseUrl}/data.json`;
+    console.log('Fetching from URL:', url);
+    
+    const res = await fetch(url);
     
     if (!res.ok) {
-      throw new Error('Failed to fetch jobs');
+      console.error('Response status:', res.status, 'URL:', url);
+      throw new Error(`Failed to fetch jobs: ${res.status}`);
     }
     
     const jobs = await res.json();
-    const job = jobs.find(job => job.id === parseInt(id));
+    const jobId = parseInt(id);
+    const job = jobs.find(job => job.id === jobId);
     
     if (!job) {
+      console.error(`Job with ID ${jobId} not found in data:`, jobs);
       throw new Error('Job not found');
     }
     
     return job;
   } catch (error) {
     console.error('Error fetching job details:', error);
-    return null;
+    throw error;
   }
 }
 
